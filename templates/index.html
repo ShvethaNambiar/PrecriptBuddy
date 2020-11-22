@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Doctor app</title>
+    <!-- <script src="jquery-3.5.1.min.js"></script> -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/style.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"> </script>
+    <!-- <script type=val/javascript src="{{url_for('static',filename='js/detectvoice4.js')}}"></script> -->
+</head>
+
+<body>
+    <style>
+        body{
+            margin: 0;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #logo{
+            width:100px;
+            margin-right: 20px
+        }
+        .header{
+            background-color: #466da7;
+            display: flex;
+            flex-direction: row;
+            width: 100vw;
+            justify-content: space-around;
+            align-items: center;
+            /* padding: 0px -20px 0px 20px */
+        }
+        .header_1{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+        }
+        .header_2{
+            display: flex;
+            flex-direction: column;
+            font-size: 15px;
+            align-items: flex-end;
+        }
+        .header_2 p{
+            padding: 0;
+            margin: 2px 0 0 0;
+            color: white
+        }
+        .img1{
+            width:100vw;
+            position: fixed;
+            top:-200px;
+            left:0;
+            z-index:-1
+        }
+        .form-total{
+            margin-top: 100px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10% 10% 0 0; 
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-evenly;
+            /* height: 100vh */
+        }
+        .form-total > form{
+            background-color: blue;
+        }
+        .micform{
+            display:flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .micform p{
+            margin-left: 5px;
+            width: 240px;
+            font-size: 12px;
+        }
+        .micimg{
+            width: 20px;
+            padding: 2px
+        }
+        .micbuttons{
+            border: none;
+            border-radius: 5px;
+            padding: 10px 5px;
+            background-color: #537FC1;
+            width: 150px
+        }
+        #symptoms, #prescription,#diagnosis,#comments{
+            height: 60px;
+        }
+        .form-details{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-top: 10px;
+            text-align: center;
+            
+        }
+        .form-details label{
+            display: inline-block;
+            text-align: right;
+            width: 120px;
+        }
+        .form-input{
+            border: none;
+            border-radius: 5px;
+            box-shadow: rgb(126, 126, 126) 0px 0px 5px;
+            padding: 2px;
+            margin-left: 10px;
+            width: 200px;
+            height: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .form-input:focus{
+            outline: none;
+        }
+        #formFinal_details{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #finalsubmit{
+            border: none;
+            color: white;
+            background-color: #2f476b;
+            border-radius: 5px;
+            margin: 10px -30px 0 0 ;
+            padding : 10px ;
+            align-self: center;
+        }
+    </style>
+
+
+    <div class="header">
+        <div class="header_1">
+            <img id="logo" src="../static/logo.png">
+            <p>PrecriptBuddy</p>
+        </div>
+        <div  class="header_2">
+            <p>New-Gen Automated Prescriptions for the upcoming Medical World</p>
+            <p>Doctor Friendly Auto-Prescription Genera</p>
+        </div>
+        
+    </div>
+    <img class="img1" src="../static/pexels-pixabay-40568.jpg" />
+    <div class="form-total">
+        <div class="form-left">
+            <form id="form_pi" class="micform">
+                <img class="micimg" src="../static/mic.svg" />
+                <button type="submit" class="micbuttons" id="PersonalInformation"  value="" >Personal Information</button>
+                <p>Speak "Name <b>Say Name</b> Age <b>Say Age</b> Gender <b>Say Gender</b>"</p>
+            </form>
+            <form  id="form_symptoms" class="micform">
+                <img class="micimg" src="../static/mic.svg" />
+                <button type="submit" class="micbuttons" id="Symptoms" value="">Symptoms</button>
+                <p>Speak "<b>Symptom 1</b> next <b>Symptom 2</b> next <b>Symptom 3</b>....."</p>
+            </form>
+            <form id="form_diagnosis" class="micform">
+                <img class="micimg" src="../static/mic.svg" />
+                <button type="submit" class="micbuttons" value="">Diagnosis</button>
+                <p>Speak "<b>Diagnosis</b>"</p>
+            </form>
+            <form id="form_prescription" class="micform">
+                <img class="micimg" src="../static/mic.svg" />
+                <button type="submit" class="micbuttons"  value="">Prescription</button>
+                <p>Speak "<b>Prescription 1</b> next <b>Prescription 2</b> next <b>Prescription 3</b>......"</p>
+            </form>
+            <form id="form_comments" class="micform">
+                <img class="micimg" src="../static/mic.svg" />
+                <button type="submit" class="micbuttons" value="">Comments</button>
+                <p>Speak "<b>Other Comments</b>"</p>
+            </form>
+        </div>
+        <div class="form-right">
+            <form id="formFinal_details">
+                <div class="form-details">
+                    <label for="name">Name:</label>
+                    <textarea class="form-input" type="val" id="name" placeholder="Name"></textarea> <br />
+                </div>
+                <div class="form-details">
+                    <label for="age">Age:</label>
+                    <textarea class="form-input" ype="val" id="age" placeholder="Age"></textarea><br />
+                </div>
+                <div class="form-details">
+                    <label for="gender">Gender:</label>
+                    <textarea class="form-input" type="val" id="gender" placeholder="Gender"></textarea><br />
+                </div>
+                <div class="form-details">
+                    <label for="symptoms">Symptoms:</label>
+                    <textarea rows = "60" cols = "60" class="form-input" type="val" id="symptoms" placeholder="Symptoms"></textarea> <br />
+                </div>
+                <div class="form-details">
+                    <label for="diagnosis">Diagnosis:</label>
+                    <textarea rows = "60" cols = "60" class="form-input" type="val" id="diagnosis" placeholder="Diagnosis"></textarea> <br />
+                </div>
+                <div class="form-details">
+                    <label for="prescription">Prescription:</label>
+                    <textarea rows = "60" cols = "60" class="form-input" type="val" id="prescription" placeholder="Prescription"></textarea> <br />
+                </div>
+                <div class="form-details">
+                    <label for="comments">Other comments:</label>
+                    <textarea rows = "60" cols = "60" class="form-input" type="val" id="comments" placeholder="Comments"></textarea> <br />
+                </div>
+                <input type="submit" id="finalsubmit" value="Confirm and generate prescription">
+            </form>
+        </div>
+    </div>
+    <p id="printhere"></p>
+    <div>
+        <!-- <form action = "/success" id="success" enctype="multipart/form-data">  
+            <input type="file" name="file" />  
+            <input type = "submit" value="Upload">  
+        </form>   -->
+    </div>
+    <!-- scripts -->
+    <script>
+        $(document).ready(function () {
+            $('#form_pi').on('submit', function(e) {
+                e.preventDefault();
+               $.ajax({
+                    type: 'POST',
+                    url: '/personalinfo'
+                })
+                .done(function(data) {
+                        $('#name').val(data.name);
+                        $('#age').val(data.age);
+                        $('#gender').val(data.gender);
+                });
+            });
+            $('#form_symptoms').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/symptoms'
+                })
+                .done(function(data) {
+                    $('#symptoms').val(data.symptoms);
+                });
+            });
+            $('#form_diagnosis').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/diagnosis'
+                })
+                .done(function(data) {
+                    $('#diagnosis').val(data.diagnosis);
+                });
+            });
+            $('#form_prescription').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/prescription'
+                })
+                .done(function(data) {
+                    $('#prescription').val(data.prescription);
+                });
+            });
+            $('#form_comments').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/comments'
+                })
+                .done(function(data) {
+                    $('#comments').val(data.comments);
+                });
+            });
+            $('#formFinal_details').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    data:{
+                        name: $('#name').val(),
+                        age: $('#age').val(),
+                        gender: $('#gender').val(),
+                        symptoms: $('#symptoms').val(),
+                        diagnosis: $('#diagnosis').val(),
+                        prescription: $('#prescription').val(),
+                        comments: $('#comments').val(),
+                    },
+                    type: 'POST',
+                    url: '/createpdf'
+                })
+                .done(function(data) {
+                    $('#printhere').text(data.success).show();
+                });
+            });
+
+            //  $('#success').on('submit',function() {
+            //     var form_data = new FormData($('#form_print')[0]);
+            //     e.preventDefault();
+            //     console.log(form_data)
+            //     $.ajax({
+            //         data: form_data,
+            //         type: 'GET',
+            //         url: '/success'
+            //     })
+            //     .done(function(data) {
+            //         $('#printhere').val(data.name);
+            //     });      
+            // });
+      
+        });
+    </script>
+    </body>
+</html>
